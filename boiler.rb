@@ -44,7 +44,30 @@ class Boiler
       return
     end
     puts 'Choose two reagents by typing their names:'
-    
+    print 'Type the first reagent: '
+    reagent1 = gets.downcase.chomp
+    print 'Type the second reagent: '
+    reagent2 = gets.downcase.chomp
+    if @reagents.include?(reagent1) && @reagents.include?(reagent2)
+      reagent = Reagent.new
+      mixed_reagents = reagent.add(reagent1.capitalize, reagent2.capitalize)
+      puts "You mixed: #{mixed_reagents}"
+    else
+      # Special messages for specific combinations
+      special_messages = {
+      ['human nail', 'cat claw'] => "Oh no, you turned a human into a cat! Run, Pinky!",
+      ['cat claw', 'mouse tail'] => "Not bad, Pinky! You turned all cats into mice. At least we are safe from cats, but we still need to take over the world! Keep trying!",
+      ['human nail', 'mouse tail'] => "You've created a tiny human-mouse hybrid. Fascinating! Now, it's time to conquer the world!"
+    }
+    key = [reagent1, reagent2].sort # Have to google it. Stuck with the sorting because what if a user types "cat claw and human nail" so that will be a different combination, but has to have the same message. So I sorted it to make it to ensure order doesn't matter
+    if special_messages.key?(key)
+      puts special_messages[key]
+    else
+      puts "You mixed: #{mixed_reagents}. No strange effects... yet. Try again"
+    end
+      puts 'Invalid reagents. Please select from the list of reagents.'
+    end
+
   end
 
   def print_greetings
