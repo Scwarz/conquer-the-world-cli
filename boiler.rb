@@ -51,9 +51,9 @@ class Boiler
 
     puts 'Choose two reagents by typing their names:'
     print 'Type the first reagent: '
-    reagent1 = gets.downcase.chomp
+    reagent1 = gets.strip.downcase.chomp
     print 'Type the second reagent: '
-    reagent2 = gets.downcase.chomp
+    reagent2 = gets.strip.downcase.chomp
 
     # Special messages for specific combinations
     special_messages = {
@@ -65,10 +65,13 @@ class Boiler
       ['mouse tail', 'human nail'] => "You've created a tiny human-mouse hybrid. Fascinating! Now, it's time to conquer the world!"
     }
     #Have to google it since my knolodges are not strong. So I was stuck with a vlidation that both entered reagents are valid and are on the list. So I converted reagents to downcase and check if both are valid
-    reagents = [reagent1, reagent2].map(&:downcase)
-  if (@reagents.map(&:downcase) & reagents).size == 2
+    reagents = [reagent1, reagent2]
+  valid_reagents = @reagents.map(&:downcase)
+  if (valid_reagents & reagents).size == 2
+    # Check for special messages with both orderings
     key = reagents.sort
-    puts special_messages.fetch(key, "You mixed: #{reagent1.capitalize} and #{reagent2.capitalize}. No strange effects... yet. Try again")
+    message = special_messages.fetch(key, "You mixed: #{reagent1.capitalize} and #{reagent2.capitalize}. No strange effects... yet. Try again")
+    puts message
   else
     puts 'Invalid reagents. Please select from the list of reagents.'
   end
